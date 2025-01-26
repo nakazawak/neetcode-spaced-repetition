@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Problem Tracker</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: transparent; /* Ensure transparent background for body */
+    }
+
+    /* Wrapper for the entire popup content */
+    #popup-wrapper {
+      width: 600px; /* Increased width */
+      height: 600px; /* Fixed height */
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      color: #333;
+      border-radius: 12px; /* Rounded corners */
+      overflow: hidden; /* Hide overflow outside the popup */
+      background-color: #ffffff; /* Solid background for the wrapper */
+      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); /* Optional shadow for elevation */
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* This is where we allow the inner content to scroll */
+    #popup-content {
+      overflow-y: auto; /* Allow vertical scrolling */
+      flex: 1; /* Allow content to take remaining space */
+      padding: 20px;
+    }
+
+    #input-section, #review-section {
+      padding: 30px; /* Increased padding */
+      background-color: #f9f9f9;
+      border-radius: 10px;
+      margin-bottom: 20px; /* More space between sections */
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for sections */
+    }
+
+    h2 {
+      font-size: 24px; /* Larger font size for headings */
+      margin-bottom: 15px;
+      color: #007bff;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 25px; /* Space between form elements */
+    }
+
+    label {
+      font-weight: bold;
+      font-size: 16px; /* Larger font size for labels */
+    }
+
+    input, select {
+      width: 80%; /* Adjust width to 80% */
+      padding: 15px 18px; /* Increased padding for better height */
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 16px; /* Larger text size */
+      box-sizing: border-box;
+    }
+
+    input:focus, select:focus {
+      border-color: #007bff;
+      outline: none;
+      box-shadow: 0 0 3px rgba(0, 123, 255, 0.3);
+    }
+
+    button {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      padding: 15px 20px; /* Bigger button */
+      font-size: 16px; /* Larger text size for button */
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    #review-list {
+      max-height: 350px; /* Increased max height for the review list */
+      overflow-y: auto; /* Enable vertical scroll if necessary */
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      padding: 15px;
+      background-color: #ffffff;
+    }
+
+    .problem-item {
+      border: 1px solid #ccc;
+      padding: 15px; /* Increased padding inside each item */
+      margin-bottom: 20px;
+      border-radius: 8px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+  </style>
+</head>
+<body>
+  <!-- Wrapper div with rounded corners -->
+  <div id="popup-wrapper">
+    <div id="popup-content">
+      <!-- Add problem form and review section will go here -->
+      <div id="input-section">
+        <h2>Add a Problem</h2>
+        <form id="problem-form">
+          <label for="problem-link">Problem Link:</label>
+          <input type="url" id="problem-link" placeholder="Paste the problem link" required>
+
+          <label for="problem-title">Problem Title:</label>
+          <input type="text" id="problem-title" placeholder="Enter the problem title" required>
+
+          <label for="difficulty">Difficulty:</label>
+          <select id="difficulty" required>
+            <option value="easy">Easy</option>
+            <option value="medium">Medium</option>
+            <option value="hard">Hard</option>
+          </select>
+
+          <button type="submit">Add Problem</button>
+        </form>
+      </div>
+
+      <hr>
+
+      <div id="review-section">
+        <h2>Questions to Revisit</h2>
+        <div id="review-list">
+          <!-- Questions for review will be dynamically inserted here -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
