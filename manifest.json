@@ -5,7 +5,7 @@
   "permissions": ["storage", "tabs"],
   "action": {
     "default_popup": "popup.html",
-    "default_icon": "icons/icon.png"
+    "default_icon": "icons/spiderIcon.png"
   }
 }
 

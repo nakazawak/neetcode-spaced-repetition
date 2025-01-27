@@ -6,43 +6,41 @@
     body {
       margin: 0;
       padding: 0;
-      background-color: transparent; /* Ensure transparent background for body */
+      background-color: transparent;
     }
 
-    /* Wrapper for the entire popup content */
     #popup-wrapper {
-      width: 600px; /* Increased width */
-      height: 600px; /* Fixed height */
+      width: 600px;
+      height: 600px;
       margin: 0;
       padding: 0;
       font-family: Arial, sans-serif;
       color: #333;
-      border-radius: 12px; /* Rounded corners */
-      overflow: hidden; /* Hide overflow outside the popup */
-      background-color: #ffffff; /* Solid background for the wrapper */
-      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); /* Optional shadow for elevation */
+      border-radius: 12px;
+      overflow: hidden;
+      background-color: #ffffff;
+      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
       box-sizing: border-box;
       display: flex;
       flex-direction: column;
     }
 
-    /* This is where we allow the inner content to scroll */
     #popup-content {
-      overflow-y: auto; /* Allow vertical scrolling */
-      flex: 1; /* Allow content to take remaining space */
+      overflow-y: auto;
+      flex: 1;
       padding: 20px;
     }
 
     #input-section, #review-section {
-      padding: 30px; /* Increased padding */
+      padding: 30px;
       background-color: #f9f9f9;
       border-radius: 10px;
-      margin-bottom: 20px; /* More space between sections */
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for sections */
+      margin-bottom: 20px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     }
 
     h2 {
-      font-size: 24px; /* Larger font size for headings */
+      font-size: 24px;
       margin-bottom: 15px;
       color: #007bff;
     }
@@ -50,20 +48,20 @@
     form {
       display: flex;
       flex-direction: column;
-      gap: 25px; /* Space between form elements */
+      gap: 25px;
     }
 
     label {
       font-weight: bold;
-      font-size: 16px; /* Larger font size for labels */
+      font-size: 16px;
     }
 
     input, select {
-      width: 80%; /* Adjust width to 80% */
-      padding: 15px 18px; /* Increased padding for better height */
+      width: 80%;
+      padding: 15px 18px;
       border: 1px solid #ccc;
       border-radius: 8px;
-      font-size: 16px; /* Larger text size */
+      font-size: 16px;
       box-sizing: border-box;
     }
 
@@ -77,8 +75,8 @@
       background-color: #007bff;
       color: white;
       border: none;
-      padding: 15px 20px; /* Bigger button */
-      font-size: 16px; /* Larger text size for button */
+      padding: 15px 20px;
+      font-size: 16px;
       border-radius: 8px;
       cursor: pointer;
       transition: background-color 0.3s;
@@ -89,8 +87,8 @@
     }
 
     #review-list {
-      max-height: 350px; /* Increased max height for the review list */
-      overflow-y: auto; /* Enable vertical scroll if necessary */
+      max-height: 350px;
+      overflow-y: auto;
       border-radius: 10px;
       border: 1px solid #ccc;
       padding: 15px;
@@ -99,18 +97,33 @@
 
     .problem-item {
       border: 1px solid #ccc;
-      padding: 15px; /* Increased padding inside each item */
+      padding: 15px;
       margin-bottom: 20px;
       border-radius: 8px;
       box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
     }
+
+    /* Reset button style */
+    #reset-button {
+      background-color: #f44336; /* Red color for reset */
+      color: white;
+      padding: 10px 15px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+
+    #reset-button:hover {
+      background-color: #d32f2f;
+    }
   </style>
 </head>
 <body>
-  <!-- Wrapper div with rounded corners -->
   <div id="popup-wrapper">
     <div id="popup-content">
-      <!-- Add problem form and review section will go here -->
+      <!-- Add problem form -->
       <div id="input-section">
         <h2>Add a Problem</h2>
         <form id="problem-form">
@@ -129,10 +142,14 @@
 
           <button type="submit">Add Problem</button>
         </form>
+
+        <!-- Reset Review Count Button -->
+        <button id="reset-button">Reset Progress</button>
       </div>
 
       <hr>
 
+      <!-- Questions to Revisit -->
       <div id="review-section">
         <h2>Questions to Revisit</h2>
         <div id="review-list">

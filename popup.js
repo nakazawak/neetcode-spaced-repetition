@@ -16,17 +16,30 @@ document.getElementById('problem-form').addEventListener('submit', async (e) => 
     difficulty,
     addedAt: now,
     nextReview, // Use calculated next review time
+    reviewCount: 0, // Start with review count of 0
   };
 
   console.log("Adding new problem:", problem);
 
   chrome.storage.sync.get({ problems: [] }, (data) => {
     const problems = data.problems;
-    problems.push(problem);
+
+    // Prevent duplicates and only add if problem doesn't already exist
+    const problemIndex = problems.findIndex(problem => problem.link === link);
+    if (problemIndex === -1) {
+      problems.push(problem); // Add the new problem
+      console.log("Problem added successfully:", problem);
+    } else {
+      console.log("Problem already exists, updating the review count and next review.");
+      // If the problem exists, just update the next review date and review count
+      const existingProblem = problems[problemIndex];
+      existingProblem.reviewCount = 0; // Reset review count to 0
+      existingProblem.nextReview = nextReview; // Reset nextReview
+    }
 
     // Save back to Chrome storage
     chrome.storage.sync.set({ problems }, () => {
-      console.log("Problem added successfully:", problems);
+      console.log("Problems saved to storage.");
       displayProblemsForToday(); // Refresh the list of questions to revisit
     });
   });
@@ -39,7 +52,7 @@ function calculateNextReview(difficulty, lastReview, reviewCount = 1) {
   const baseIntervals = {
     easy: 7 * 24 * 60 * 60 * 1000, // 7 days in milliseconds
     medium: 3 * 24 * 60 * 60 * 1000, // 3 days in milliseconds
-    hard: 5 * 1000, // 1 day in milliseconds
+    hard: 1 * 24 * 60 * 60 * 1000, // 1 day in milliseconds
   };
 
   let interval = baseIntervals[difficulty];
@@ -50,30 +63,53 @@ function calculateNextReview(difficulty, lastReview, reviewCount = 1) {
   }
 
   const nextReview = lastReview + interval;
-  console.log(
-    `Next review for difficulty "${difficulty}" after ${reviewCount} reviews:`,
-    new Date(nextReview)
-  );
+  console.log(`Next review for difficulty "${difficulty}" after ${reviewCount} reviews:`, new Date(nextReview));
   return nextReview;
 }
 
+// Add event listener to reset button
+document.getElementById('reset-button').addEventListener('click', () => {
+  console.log('Resetting progress for all problems...');
 
+  // Get all problems from storage
+  chrome.storage.sync.get({ problems: [] }, (data) => {
+    const problems = data.problems;
+
+    // Reset reviewCount and nextReview for each problem
+    const updatedProblems = problems.map(problem => {
+      // Reset the review count
+      problem.reviewCount = 0;
+
+      // Reset nextReview to a future date (e.g., 7 days from now for "easy" problems)
+      const futureReviewDate = Date.now() + 7 * 24 * 60 * 60 * 1000; // 7 days from now
+
+      // Reset the nextReview to the future date (customize based on difficulty if desired)
+      problem.nextReview = futureReviewDate;
+
+      return problem;
+    });
+
+    // Save updated problems back to storage
+    chrome.storage.sync.set({ problems: updatedProblems }, () => {
+      console.log('Progress reset for all problems.');
+      displayProblemsForToday(); // Update the UI to reflect changes
+    });
+  });
+});
 
 // Display problems due for review today
 function displayProblemsForToday() {
   console.log("Displaying problems for today...");
   const reviewList = document.getElementById('review-list');
+  
+  // Clear the current list to avoid duplicates
   reviewList.innerHTML = '';
 
   chrome.storage.sync.get({ problems: [] }, (data) => {
-    console.log("Retrieved problems from storage:", data.problems);
+    console.log("Problems retrieved from storage:", data.problems);
 
     const now = Date.now();
-    const dueProblems = data.problems.filter(problem => {
-      const isDue = problem.nextReview <= now;
-      console.log(`Problem "${problem.title}" due? ${isDue}`);
-      return isDue;
-    });
+    const dueProblems = data.problems.filter(problem => problem.nextReview <= now);
 
     if (dueProblems.length === 0) {
       reviewList.innerHTML = '<p>No questions to revisit today.</p>';
@@ -99,7 +135,7 @@ function displayProblemsForToday() {
   });
 }
 
-// Mark a problem as reviewed and update the next review date
+// Add event listener to mark as reviewed
 document.addEventListener('click', (e) => {
   if (e.target.classList.contains('review-button')) {
     const problemLink = e.target.getAttribute('data-id');
@@ -118,15 +154,16 @@ document.addEventListener('click', (e) => {
         if (problem.link === problemLink) {
           console.log(`Updating problem "${problem.title}"`);
           problem.difficulty = newDifficulty;
-          problem.nextReview = calculateNextReview(newDifficulty, Date.now());
+          problem.reviewCount = (problem.reviewCount || 0) + 1;
+          problem.nextReview = calculateNextReview(newDifficulty, Date.now(), problem.reviewCount);
           console.log(`Next review for "${problem.title}" set to:`, new Date(problem.nextReview));
         }
         return problem;
       });
 
       chrome.storage.sync.set({ problems }, () => {
-        console.log("Updated problems saved to storage:", problems);
-        displayProblemsForToday();
+        console.log("Updated problems saved to storage.");
+        displayProblemsForToday(); // Refresh the list after updating
       });
     });
   }
@@ -134,9 +171,3 @@ document.addEventListener('click', (e) => {
 
 // Initialize the popup
 document.addEventListener('DOMContentLoaded', displayProblemsForToday);
-
-
-
-
-
-
