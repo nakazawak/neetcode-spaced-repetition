@@ -1,164 +1,248 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Problem Tracker</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
   <style>
-    body {
+    /* General Reset */
+    * {
       margin: 0;
       padding: 0;
-      background-color: transparent;
+      box-sizing: border-box;
     }
 
+    body {
+      background-color: #f4f7fc;
+      font-family: 'Roboto', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 95vh;
+      padding: 0 0px;
+    }
+
+    /* Popup Wrapper */
     #popup-wrapper {
-      width: 600px;
-      height: 600px;
-      margin: 0;
-      padding: 0;
-      font-family: Arial, sans-serif;
-      color: #333;
+      width: 450px;
+      max-width: 600px;
+      background-color: #ffffff;
       border-radius: 12px;
       overflow: hidden;
-      background-color: #ffffff;
-      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-      box-sizing: border-box;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
       display: flex;
       flex-direction: column;
-    }
-
-    #popup-content {
-      overflow-y: auto;
-      flex: 1;
-      padding: 20px;
-    }
-
-    #input-section, #review-section {
       padding: 30px;
-      background-color: #f9f9f9;
-      border-radius: 10px;
-      margin-bottom: 20px;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      margin-top: 20px;
     }
 
     h2 {
-      font-size: 24px;
-      margin-bottom: 15px;
-      color: #007bff;
+      color: #333;
+      font-size: 28px;
+      font-weight: 500;
+      text-align: center;
+      margin-bottom: 20px;
     }
 
-    form {
-      display: flex;
-      flex-direction: column;
-      gap: 25px;
+    /* Form Section */
+    #input-section {
+      margin-bottom: 30px;
     }
 
     label {
       font-weight: bold;
-      font-size: 16px;
+      font-size: 14px;
+      color: #555;
+      margin-bottom: 5px;
     }
 
-    input, select {
-      width: 80%;
-      padding: 15px 18px;
+    input, button {
+      width: 100%;
+      padding: 12px;
       border: 1px solid #ccc;
       border-radius: 8px;
       font-size: 16px;
-      box-sizing: border-box;
+      color: #555;
+      background-color: #f9f9f9;
+      margin-bottom: 15px;
     }
 
     input:focus, select:focus {
-      border-color: #007bff;
       outline: none;
-      box-shadow: 0 0 3px rgba(0, 123, 255, 0.3);
+      border-color: #007bff;
+      box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
     }
 
     button {
       background-color: #007bff;
-      color: white;
-      border: none;
-      padding: 15px 20px;
-      font-size: 16px;
-      border-radius: 8px;
+      color: #fff;
       cursor: pointer;
-      transition: background-color 0.3s;
+      transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
     }
 
     button:hover {
       background-color: #0056b3;
+      transform: scale(1.05);
+      box-shadow: 0 4px 10px rgba(0, 123, 255, 0.3);
+    }
+
+    /* Default Dropdown */
+    select {
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      background-color: #f9f9f9;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      padding: 12px;
+      font-size: 16px;
+      color: #555;
+      width: 100%;
+      cursor: pointer;
+      background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="10" height="6" viewBox="0 0 10 6"%3E%3Cpath fill="none" stroke="%23333" stroke-width="2" d="M1 1l4 4 4-4" /%3E%3C/svg%3E');
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      background-size: 10px 6px;
+    }
+
+    select:hover {
+      background-color: #e9ecef;
+    }
+
+    /* Review List Section */
+    #review-section {
+      padding: 15px;
+      background-color: #f9f9f9;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+      margin-top: 20px;
+      overflow-y: auto;
+      max-height: 300px;
     }
 
     #review-list {
-      max-height: 350px;
-      overflow-y: auto;
-      border-radius: 10px;
-      border: 1px solid #ccc;
-      padding: 15px;
-      background-color: #ffffff;
+      margin-top: 10px;
     }
 
     .problem-item {
-      border: 1px solid #ccc;
+      background-color: #fff;
       padding: 15px;
-      margin-bottom: 20px;
       border-radius: 8px;
+      margin-bottom: 10px;
       box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
     }
 
-    /* Reset button style */
-    #reset-button {
-      background-color: #f44336; /* Red color for reset */
-      color: white;
-      padding: 10px 15px;
+    .problem-item p {
       font-size: 16px;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
+      margin-bottom: 10px;
+    }
+
+    .problem-item button {
+      background-color: #28a745;
+      color: white;
+      margin-top: 10px;
+      transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
+    }
+
+    .problem-item button:hover {
+      background-color: #218838;
+      transform: scale(1.05);
+      box-shadow: 0 4px 10px rgba(40, 167, 69, 0.3);
+    }
+
+    #reset-button {
+      background-color: #f44336;
+      color: white;
       margin-top: 20px;
+      cursor: pointer;
+      border-radius: 8px;
+      transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
     }
 
     #reset-button:hover {
       background-color: #d32f2f;
+      transform: scale(1.05);
+      box-shadow: 0 4px 10px rgba(211, 50, 47, 0.3);
+    }
+
+    /* Message for no questions */
+    #no-questions-message {
+      text-align: center;
+      font-size: 16px;
+      color: #777;
+      margin-top: 20px;
     }
   </style>
 </head>
 <body>
   <div id="popup-wrapper">
-    <div id="popup-content">
-      <!-- Add problem form -->
-      <div id="input-section">
-        <h2>Add a Problem</h2>
-        <form id="problem-form">
-          <label for="problem-link">Problem Link:</label>
-          <input type="url" id="problem-link" placeholder="Paste the problem link" required>
+    <h2>Problem Tracker</h2>
+    
+    <div id="input-section">
+      <form id="problem-form">
+        <label for="problem-link">Problem Link:</label>
+        <input type="url" id="problem-link" placeholder="Paste the problem link" required>
 
-          <label for="problem-title">Problem Title:</label>
-          <input type="text" id="problem-title" placeholder="Enter the problem title" required>
+        <label for="problem-title">Problem Title:</label>
+        <input type="text" id="problem-title" placeholder="Enter the problem title" required>
 
-          <label for="difficulty">Difficulty:</label>
-          <select id="difficulty" required>
-            <option value="easy">Easy</option>
-            <option value="medium">Medium</option>
-            <option value="hard">Hard</option>
-          </select>
+        <label for="difficulty">Difficulty:</label>
+        <select id="difficulty" required>
+          <option value="easy">Easy</option>
+          <option value="medium">Medium</option>
+          <option value="hard">Hard</option>
+        </select>
 
-          <button type="submit">Add Problem</button>
-        </form>
+        <button type="submit">Add Problem</button>
+      </form>
 
-        <!-- Reset Review Count Button -->
-        <button id="reset-button">Reset Progress</button>
+      <button id="reset-button">Reset Review Count</button>
+    </div>
+
+    <div id="review-section">
+      <h3>Questions to Revisit</h3>
+      <div id="review-list">
+        <!-- Questions for review will be dynamically inserted here -->
       </div>
 
-      <hr>
-
-      <!-- Questions to Revisit -->
-      <div id="review-section">
-        <h2>Questions to Revisit</h2>
-        <div id="review-list">
-          <!-- Questions for review will be dynamically inserted here -->
-        </div>
-      </div>
+      <!-- Message for no questions to revisit -->
+      <div id="no-questions-message">No questions to revisit today</div>
     </div>
   </div>
 
-  <script src="popup.js"></script>
+  <script>
+    // Simulate the list of questions for review (empty list to start)
+    const reviewList = [];
+
+    // Check if there are any questions to revisit and show message accordingly
+    const reviewSection = document.getElementById('review-list');
+    const noQuestionsMessage = document.getElementById('no-questions-message');
+
+    if (reviewList.length === 0) {
+      // Show the message if there are no questions
+      reviewSection.style.display = 'none'; // Hide review list
+      noQuestionsMessage.style.display = 'block'; // Show the message
+    } else {
+      // Show the list if there are questions
+      reviewSection.style.display = 'block'; // Show review list
+      noQuestionsMessage.style.display = 'none'; // Hide the message
+      // Insert dynamically the questions here if needed
+    }
+
+    // Simulate adding a question to revisit (for testing)
+    function addQuestionToRevisit(question) {
+      reviewList.push(question);
+      if (reviewList.length > 0) {
+        reviewSection.style.display = 'block';
+        noQuestionsMessage.style.display = 'none';
+      }
+    }
+
+    // Example of adding a question
+    // addQuestionToRevisit("Example question to revisit.");
+  </script>
 </body>
 </html>
+
+
