@@ -14,7 +14,7 @@
     }
 
     body {
-      background-color: #f4f7fc;
+      background-color: #ffffff;
       font-family: 'Roboto', sans-serif;
       display: flex;
       justify-content: center;
@@ -27,7 +27,7 @@
     #popup-wrapper {
       width: 450px;
       max-width: 600px;
-      background-color: #ffffff;
+      background-color: #646669;
       border-radius: 12px;
       overflow: hidden;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -38,7 +38,7 @@
     }
 
     h2 {
-      color: #333;
+      color: #ffd105;
       font-size: 28px;
       font-weight: 500;
       text-align: center;
@@ -53,14 +53,14 @@
     label {
       font-weight: bold;
       font-size: 14px;
-      color: #555;
+      color: #d9d9d9;
       margin-bottom: 5px;
     }
 
     input, button {
       width: 100%;
       padding: 12px;
-      border: 1px solid #ccc;
+      border: 1px solid #cccccc72;
       border-radius: 8px;
       font-size: 16px;
       color: #555;
@@ -70,21 +70,25 @@
 
     input:focus, select:focus {
       outline: none;
-      border-color: #007bff;
-      box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+      border-color: #ffffff;
+      box-shadow: 0 0 5px rgba(255, 221, 0, 0.3);
     }
 
     button {
-      background-color: #007bff;
-      color: #fff;
+      background-color: #ffd105;
+      color: #555;
       cursor: pointer;
       transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
     }
 
+    button[type="submit"] { 
+      margin-top: 15px; /* Moves the Add Problem button down */
+    }
+
     button:hover {
-      background-color: #0056b3;
+      background-color: #ffd70ddc;
       transform: scale(1.05);
-      box-shadow: 0 4px 10px rgba(0, 123, 255, 0.3);
+      box-shadow: 0 4px 10px rgba(255, 187, 0, 0.3);
     }
 
     /* Default Dropdown */
@@ -92,7 +96,7 @@
       -webkit-appearance: none;
       -moz-appearance: none;
       appearance: none;
-      background-color: #f9f9f9;
+      background-color: #ffffff;
       border: 1px solid #ccc;
       border-radius: 8px;
       padding: 12px;
@@ -113,7 +117,7 @@
     /* Review List Section */
     #review-section {
       padding: 15px;
-      background-color: #f9f9f9;
+      background-color: #ffffff;
       border-radius: 8px;
       border: 1px solid #ddd;
       margin-top: 20px;
@@ -126,7 +130,7 @@
     }
 
     .problem-item {
-      background-color: #fff;
+      background-color: #c6c6c6;
       padding: 15px;
       border-radius: 8px;
       margin-bottom: 10px;
@@ -148,12 +152,12 @@
     .problem-item button:hover {
       background-color: #218838;
       transform: scale(1.05);
-      box-shadow: 0 4px 10px rgba(40, 167, 69, 0.3);
+      box-shadow: 0 4px 10px rgba(255, 255, 255, 0.3);
     }
 
     #reset-button {
-      background-color: #f44336;
-      color: white;
+      background-color: #ffd105;
+      color: rgb(98, 98, 98);
       margin-top: 20px;
       cursor: pointer;
       border-radius: 8px;
@@ -161,9 +165,9 @@
     }
 
     #reset-button:hover {
-      background-color: #d32f2f;
+      background-color: #ffd70ddc;
       transform: scale(1.05);
-      box-shadow: 0 4px 10px rgba(211, 50, 47, 0.3);
+      box-shadow: 0 4px 10px rgba(211, 164, 47, 0.3);
     }
 
     /* Message for no questions */
@@ -173,12 +177,15 @@
       color: #777;
       margin-top: 20px;
     }
+
+
   </style>
 </head>
 <body>
   <div id="popup-wrapper">
-    <h2>Problem Tracker</h2>
-    
+    <h2>Leetcode Tracker</h2>
+
+    <form id="problem-form" autocomplete="off">
     <div id="input-section">
       <form id="problem-form">
         <label for="problem-link">Problem Link:</label>
