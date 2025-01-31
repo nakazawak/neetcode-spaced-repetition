@@ -52,7 +52,7 @@ function calculateNextReview(difficulty, lastReview, reviewCount = 1) {
   const baseIntervals = {
     easy: 7 * 24 * 60 * 60 * 1000, // 7 days in milliseconds
     medium: 3 * 24 * 60 * 60 * 1000, // 3 days in milliseconds
-    hard: 1 * 24 * 60 * 60 * 1000, // 1 day in milliseconds
+    hard: 3 * 1000, // 1 day in milliseconds
   };
 
   let interval = baseIntervals[difficulty];
